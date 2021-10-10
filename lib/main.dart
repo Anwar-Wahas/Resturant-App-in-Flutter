@@ -217,42 +217,44 @@ class FirstHalf extends StatelessWidget{
 }
 
 Widget categories(){
-  return Container(
-    height: 185,
-    child: ListView(
-      scrollDirection: Axis.horizontal,
-      children: <Widget>[
-        CategoryListItem(
-          categoryIcon: Icons.bug_report,
-          categoryName: "Burgers",
-          availability: 12,
-          selected: true,
-        ),
-        CategoryListItem(
-          categoryIcon: Icons.bug_report,
-          categoryName: "Pizza",
-          availability: 12,
-          selected: false,
-        ),
-        CategoryListItem(
-          categoryIcon: Icons.bug_report,
-          categoryName: "Rolls",
-          availability: 12,
-          selected: false,
-        ),
-        CategoryListItem(
-          categoryIcon: Icons.bug_report,
-          categoryName: "Burgers",
-          availability: 12,
-          selected: false,
-        ),
-        CategoryListItem(
-          categoryIcon: Icons.bug_report,
-          categoryName: "Burgers",
-          availability: 12,
-          selected: false,
-        ),
-      ],
+  return Center(
+    child: Container(
+      height: 185,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: <Widget>[
+          CategoryListItem(
+            categoryIcon: Icons.bug_report,
+            categoryName: "Burgers",
+            availability: 12,
+            selected: true,
+          ),
+          CategoryListItem(
+            categoryIcon: Icons.bug_report,
+            categoryName: "Pizza",
+            availability: 12,
+            selected: false,
+          ),
+          CategoryListItem(
+            categoryIcon: Icons.bug_report,
+            categoryName: "Rolls",
+            availability: 12,
+            selected: false,
+          ),
+          CategoryListItem(
+            categoryIcon: Icons.bug_report,
+            categoryName: "Burgers",
+            availability: 12,
+            selected: false,
+          ),
+          CategoryListItem(
+            categoryIcon: Icons.bug_report,
+            categoryName: "Burgers",
+            availability: 12,
+            selected: false,
+          ),
+        ],
+      ),
     ),
   );
 }
