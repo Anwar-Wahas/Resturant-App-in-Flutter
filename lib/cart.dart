@@ -186,6 +186,7 @@ class _CustomPersonWidgetState extends State<CustomPersonWidget> {
                 ),
               ),
               onPressed: (){
+                if(noOfPersons>1)
                 setState(() {
                   noOfPersons--;
                 });
