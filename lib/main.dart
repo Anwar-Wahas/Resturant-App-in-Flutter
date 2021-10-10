@@ -1,5 +1,6 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:the_food_cart_app/bloc/cartListBloc.dart';
 import 'package:the_food_cart_app/model/foodItem.dart';
 
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
 }
 
 class Home extends StatelessWidget {
+ List<FoodItem>items= foodItemList.foodItems;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -36,7 +38,7 @@ class Home extends StatelessWidget {
             children: <Widget>[
               FirstHalf(),
               SizedBox(height: 45,),
-              for (var foodItem in foodItemList.foodItems)
+              for (var foodItem in items)
                 ItemContainer(foodItem: foodItem)
               ,
             ],
@@ -60,7 +62,8 @@ class ItemContainer extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return GestureDetector(
+    if(foodItem.title.contains(searchBoxText)||searchBoxText=="")
+    return  GestureDetector(
       onTap: () {
         addToCart(foodItem);
 
@@ -79,6 +82,7 @@ class ItemContainer extends StatelessWidget{
         leftAligned: (foodItem.id % 2 == 0) ? true : false,
       ),
     );
+    else return Container();
   }
 }
 
@@ -218,47 +222,57 @@ class FirstHalf extends StatelessWidget{
 
 Widget categories(){
   return
-    Container(
-      height: 185,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: <Widget>[
-          CategoryListItem(
-            categoryIcon: Icons.bug_report,
-            categoryName: "Burgers",
-            availability: 12,
-            selected: true,
-          ),
-          CategoryListItem(
-            categoryIcon: Icons.bug_report,
-            categoryName: "Pizza",
-            availability: 12,
-            selected: false,
-          ),
-          CategoryListItem(
-            categoryIcon: Icons.bug_report,
-            categoryName: "Rolls",
-            availability: 12,
-            selected: false,
-          ),
-          CategoryListItem(
-            categoryIcon: Icons.bug_report,
-            categoryName: "Burgers",
-            availability: 12,
-            selected: false,
-          ),
-          CategoryListItem(
-            categoryIcon: Icons.bug_report,
-            categoryName: "Burgers",
-            availability: 12,
-            selected: false,
-          ),
-        ],
-      ),alignment: Alignment.center,color: Colors.red,
 
-    );
+       Container(
+         height: 185,
+        // child:
+           //  Row(crossAxisAlignment: CrossAxisAlignment.center,children: [
+
+          // Expanded(
+             child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+
+                CategoryListItem(
+                  categoryIcon: Icons.bug_report,
+                  categoryName: "Burgers",
+                  availability: 12,
+                  selected: true,
+                ),
+                CategoryListItem(
+                  categoryIcon: Icons.bug_report,
+                  categoryName: "Pizza",
+                  availability: 12,
+                  selected: false,
+                ),
+                CategoryListItem(
+                  categoryIcon: Icons.bug_report,
+                  categoryName: "Rolls",
+                  availability: 12,
+                  selected: false,
+                ),
+                CategoryListItem(
+                  categoryIcon: Icons.bug_report,
+                  categoryName: "Burgers",
+                  availability: 12,
+                  selected: false,
+                ),
+                CategoryListItem(
+                  categoryIcon: Icons.bug_report,
+                  categoryName: "Burgers",
+                  availability: 12,
+                  selected: false,
+                ),
+              ],
+          ),
+          // )
+  //]),
+        color: Colors.red,
+
+
+       );
 }
-
+String searchBoxText="";
 Widget searchBar(){
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -276,7 +290,9 @@ Widget searchBar(){
             helperStyle: TextStyle(
               color: Colors.black87,
             )
-          ),
+          ),onChanged: (value){
+            searchBoxText=value;
+        },
         ),
       )
     ],

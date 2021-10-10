@@ -1,6 +1,5 @@
 import 'package:meta/meta.dart';
-
-FoodItemList foodItemList = FoodItemList(foodItems: [
+List<FoodItem> AllFoodItemList= [
   FoodItem(
     id: 1,
     title: "Beach BBQ Burger",
@@ -46,7 +45,8 @@ FoodItemList foodItemList = FoodItemList(foodItems: [
     imgUrl:
     "https://cdn.pixabay.com/photo/2018/03/04/20/08/burger-3199088__340.jpg",
   ),
-]);
+];
+FoodItemList foodItemList = FoodItemList(foodItems:AllFoodItemList);
 
 class FoodItemList {
   List<FoodItem> foodItems;
