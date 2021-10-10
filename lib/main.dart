@@ -217,8 +217,8 @@ class FirstHalf extends StatelessWidget{
 }
 
 Widget categories(){
-  return Center(
-    child: Container(
+  return
+    Container(
       height: 185,
       child: ListView(
         scrollDirection: Axis.horizontal,
@@ -254,9 +254,9 @@ Widget categories(){
             selected: false,
           ),
         ],
-      ),
-    ),
-  );
+      ),alignment: Alignment.center,color: Colors.red,
+
+    );
 }
 
 Widget searchBar(){
