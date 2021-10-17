@@ -60,18 +60,13 @@ class _HomeState extends State<Home> {
   }
 }
 
-class ItemContainer extends StatefulWidget{
-  final FoodItem foodItem;
-  ItemContainer({this.foodItem});
 
-   
 
-  @override
-  State<ItemContainer> createState() => _ItemContainerState();
-}
-
-class _ItemContainerState extends State<ItemContainer> {
+class ItemContainer extends StatelessWidget {
   final CartListBloc bloc = BlocProvider.getBloc<CartListBloc>();
+
+final FoodItem foodItem;
+  ItemContainer({this.foodItem});
 
   addToCart(FoodItem foodItem){
     bloc.addToList(foodItem);
@@ -84,21 +79,21 @@ class _ItemContainerState extends State<ItemContainer> {
     
     return  GestureDetector(
       onTap: () {
-        addToCart(widget.foodItem);
+        addToCart(foodItem);
 
         final snackbar = SnackBar(
-          content: Text("${widget.foodItem.title} added to the cart"),
+          content: Text("${foodItem.title} added to the cart"),
           duration: Duration(milliseconds: 550),
         );
 
         ScaffoldMessenger.of(context).showSnackBar(snackbar);
       },
       child: Items(
-        hotel: widget.foodItem.hotel, 
-        itemName: widget.foodItem.title, 
-        itemPrice: widget.foodItem.price, 
-        imageUrl: widget.foodItem.imgUrl,
-        leftAligned: (widget.foodItem.id % 2 == 0) ? true : false,
+        hotel: foodItem.hotel, 
+        itemName: foodItem.title, 
+        itemPrice: foodItem.price, 
+        imageUrl: foodItem.imgUrl,
+        leftAligned: (foodItem.id % 2 == 0) ? true : false,
       ),
     );
     
@@ -244,10 +239,7 @@ Widget categories(){
 
        Container(
          height: 185,
-        // child:
-           //  Row(crossAxisAlignment: CrossAxisAlignment.center,children: [
-
-          // Expanded(
+        
              child: ListView(
               scrollDirection: Axis.horizontal,
               children: <Widget>[
@@ -284,8 +276,7 @@ Widget categories(){
                 ),
               ],
           ),
-          // )
-  //]),
+        
         color: Colors.red,
 
 
