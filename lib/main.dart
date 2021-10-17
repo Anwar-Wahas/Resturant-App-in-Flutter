@@ -27,10 +27,7 @@ class MyApp extends StatelessWidget {
 }
 
 class Home extends StatefulWidget {
-  Home(){
-    createState() ;
-    //State<Home> createState() => _HomeState();
-    }
+  
   @override
   State<Home> createState() => _HomeState();
 }
@@ -245,31 +242,31 @@ Widget categories(){
               children: <Widget>[
 
                 CategoryListItem(
-                  categoryIcon: Icons.bug_report,
+                  categoryIcon: Image.network('https://hips.hearstapps.com/pop.h-cdn.co/assets/cm/15/05/480x240/54ca71fb94ad3_-_5summer_skills_burger_470_0808-de.jpg'),
                   categoryName: "Burgers",
                   availability: 12,
                   selected: true,
                 ),
                 CategoryListItem(
-                  categoryIcon: Icons.bug_report,
+                  categoryIcon: Image.network('https://www.qsrmagazine.com/sites/default/files/styles/story_page/public/FreddysBurger.jpg'),
                   categoryName: "Pizza",
                   availability: 12,
                   selected: false,
                 ),
                 CategoryListItem(
-                  categoryIcon: Icons.bug_report,
+                  categoryIcon: Image.network('https://cdn.pixabay.com/photo/2018/03/04/20/08/burger-3199088__340.jpg'),
                   categoryName: "Rolls",
                   availability: 12,
                   selected: false,
                 ),
                 CategoryListItem(
-                  categoryIcon: Icons.bug_report,
+                  categoryIcon:  Image.network('https://www.beliefnet.com/columnists/doinglifetogether/wp-content/uploads/sites/258/2013/05/burger.jpg'),
                   categoryName: "Burgers",
                   availability: 12,
                   selected: false,
                 ),
                 CategoryListItem(
-                  categoryIcon: Icons.bug_report,
+                  categoryIcon: Image.network('https://www.beliefnet.com/columnists/doinglifetogether/wp-content/uploads/sites/258/2013/05/burger.jpg'),
                   categoryName: "Burgers",
                   availability: 12,
                   selected: false,
@@ -277,7 +274,7 @@ Widget categories(){
               ],
           ),
         
-        color: Colors.red,
+        
 
 
        );
@@ -382,7 +379,7 @@ GestureDetector buildGestureDetector(int length, BuildContext context ,List<Food
 
 class CategoryListItem extends StatelessWidget {
 
-  final IconData categoryIcon;
+  final Image categoryIcon;
   final String categoryName;
   final int availability;
   final bool selected;
@@ -399,7 +396,7 @@ class CategoryListItem extends StatelessWidget {
     // TODO: implement build
     return Container(
       margin: EdgeInsets.only(right: 20),
-      padding: EdgeInsets.fromLTRB(10, 10, 10, 20),
+      padding: EdgeInsets.only(left: 20,right: 20,top: 10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
           color: selected ? Color(0xfffeb324) : Colors.white,
@@ -419,7 +416,9 @@ class CategoryListItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.all(20),
+          width: 60,
+          height: 60,
+            padding: EdgeInsets.all(2),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -428,12 +427,14 @@ class CategoryListItem extends StatelessWidget {
                 width: 1.5,
               )
             ),
-            child: Icon(
-              categoryIcon,
-              color: Colors.black,
-              size: 30,
-            ),
+            
+              child: 
+               categoryIcon,
+            
+            
+             
           ),
+          
           SizedBox(height: 10,),
           Text(
             categoryName,
