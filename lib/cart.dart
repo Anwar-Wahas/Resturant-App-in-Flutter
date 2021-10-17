@@ -177,6 +177,7 @@ class _CustomPersonWidgetState extends State<CustomPersonWidget> {
           SizedBox(
             width: buttonWidth,
             height: buttonWidth,
+            // ignore: deprecated_member_use
             child: FlatButton(
               child: Text(
                 "-",

@@ -26,8 +26,18 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  Home(){
+    createState() ;
+    //State<Home> createState() => _HomeState();
+    }
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
  List<FoodItem>items= foodItemList.foodItems;
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -39,6 +49,7 @@ class Home extends StatelessWidget {
               FirstHalf(),
               SizedBox(height: 45,),
               for (var foodItem in items)
+              if(foodItem.title.contains(searchBoxText)||searchBoxText=="")
                 ItemContainer(foodItem: foodItem)
               ,
             ],
@@ -49,40 +60,48 @@ class Home extends StatelessWidget {
   }
 }
 
-class ItemContainer extends StatelessWidget{
+class ItemContainer extends StatefulWidget{
   final FoodItem foodItem;
   ItemContainer({this.foodItem});
 
+   
+
+  @override
+  State<ItemContainer> createState() => _ItemContainerState();
+}
+
+class _ItemContainerState extends State<ItemContainer> {
   final CartListBloc bloc = BlocProvider.getBloc<CartListBloc>();
 
   addToCart(FoodItem foodItem){
     bloc.addToList(foodItem);
   }
+  
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    if(foodItem.title.contains(searchBoxText)||searchBoxText=="")
+    
     return  GestureDetector(
       onTap: () {
-        addToCart(foodItem);
+        addToCart(widget.foodItem);
 
         final snackbar = SnackBar(
-          content: Text("${foodItem.title} added to the cart"),
+          content: Text("${widget.foodItem.title} added to the cart"),
           duration: Duration(milliseconds: 550),
         );
 
-        Scaffold.of(context).showSnackBar(snackbar);
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
       },
       child: Items(
-        hotel: foodItem.hotel, 
-        itemName: foodItem.title, 
-        itemPrice: foodItem.price, 
-        imageUrl: foodItem.imgUrl,
-        leftAligned: (foodItem.id % 2 == 0) ? true : false,
+        hotel: widget.foodItem.hotel, 
+        itemName: widget.foodItem.title, 
+        itemPrice: widget.foodItem.price, 
+        imageUrl: widget.foodItem.imgUrl,
+        leftAligned: (widget.foodItem.id % 2 == 0) ? true : false,
       ),
     );
-    else return Container();
+    
   }
 }
 
@@ -292,6 +311,8 @@ Widget searchBar(){
             )
           ),onChanged: (value){
             searchBoxText=value;
+            runApp(MyApp());
+            //Home();
         },
         ),
       )
@@ -447,4 +468,5 @@ class CategoryListItem extends StatelessWidget {
       ),
     );
   }
+  //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
 }
