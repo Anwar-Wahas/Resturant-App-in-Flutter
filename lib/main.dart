@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       blocs: [
         Bloc ((i) => CartListBloc())
       ],
+      dependencies: [],
       child: MaterialApp(
         title: 'Food Cart',
         home: Home(),
@@ -33,7 +34,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
- List<FoodItem>items= foodItemList.foodItems;
+
+ List<FoodItem>items= getItems();
 
   @override
   Widget build(BuildContext context) {
