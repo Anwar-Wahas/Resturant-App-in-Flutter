@@ -48,8 +48,9 @@ class _HomeState extends State<Home> {
               FirstHalf(),
               SizedBox(height: 45,),
               for (var foodItem in items)
-              if(foodItem.title.contains(searchBoxText)||searchBoxText=="")
+              if((foodItem.title.contains(searchBoxText)||searchBoxText=="")&&foodItem.category==categoryName)
                 ItemContainer(foodItem: foodItem)
+              else if(categoryName=="All")  ItemContainer(foodItem: foodItem)
               ,
             ],
           ),
@@ -69,6 +70,7 @@ final FoodItem foodItem;
 
   addToCart(FoodItem foodItem){
     bloc.addToList(foodItem);
+
   }
   
 
@@ -235,9 +237,14 @@ class FirstHalf extends StatelessWidget{
   }
 }
 int categoryId=0;
+String categoryName="All";
 Widget categories(){
+
  setCategoryId(int i){
    categoryId=i;
+ }
+ setCategoryName(String n){
+   categoryName=n;
  }
   return
 
@@ -253,12 +260,27 @@ Widget categories(){
                     categoryIcon:
                       Image.network('https://hips.hearstapps.com/pop.h-cdn.co/assets/cm/15/05/480x240/54ca71fb94ad3_-_5summer_skills_burger_470_0808-de.jpg'
                           ,fit: BoxFit.fill),
-                    categoryName: "Burgers",
+                    categoryName: "All",
                     availability: 12,
                     selected:categoryId==0 ? true : false,
                   ),
                   onTap: (){
                     setCategoryId(0);
+                    setCategoryName("All");
+                    runApp(MyApp());
+                  },
+                ),
+                InkWell(
+                  child: CategoryListItem(
+                    categoryIcon: Image.network('https://cdn.pixabay.com/photo/2018/03/04/20/08/burger-3199088__340.jpg'
+                        ,fit: BoxFit.fill),
+                    categoryName: "Burgers",
+                    availability: 12,
+                    selected: categoryId==1 ? true : false,
+                  ),
+                  onTap: (){
+                    setCategoryId(1);
+                    setCategoryName("Burger");
                     runApp(MyApp());
                   },
                 ),
@@ -268,49 +290,11 @@ Widget categories(){
                         ,fit: BoxFit.fill),
                     categoryName: "Pizza",
                     availability: 12,
-                    selected: categoryId==1 ? true : false,
-                  ),
-                  onTap: (){
-                    setCategoryId(1);
-                    runApp(MyApp());
-                  },
-                ),
-                InkWell(
-                  child: CategoryListItem(
-                    categoryIcon: Image.network('https://cdn.pixabay.com/photo/2018/03/04/20/08/burger-3199088__340.jpg'
-                        ,fit: BoxFit.fill),
-                    categoryName: "Rolls",
-                    availability: 12,
                     selected: categoryId==2 ? true : false,
                   ),
                   onTap: (){
                     setCategoryId(2);
-                    runApp(MyApp());
-                  },
-                ),
-                InkWell(
-                  child: CategoryListItem(
-                    categoryIcon:  Image.network('https://www.beliefnet.com/columnists/doinglifetogether/wp-content/uploads/sites/258/2013/05/burger.jpg'
-                        ,fit: BoxFit.fill),
-                    categoryName: "Burgers",
-                    availability: 12,
-                    selected: categoryId==3 ? true : false,
-                  ),
-                  onTap: (){
-                    setCategoryId(3);
-                    runApp(MyApp());
-                  },
-                ),
-                InkWell(
-                  child: CategoryListItem(
-                    categoryIcon: Image.network('https://www.beliefnet.com/columnists/doinglifetogether/wp-content/uploads/sites/258/2013/05/burger.jpg'
-                        ,fit: BoxFit.fill),
-                    categoryName: "Burgers",
-                    availability: 12,
-                    selected: categoryId==4 ? true : false,
-                  ),
-                  onTap: (){
-                    setCategoryId(4);
+                    setCategoryName("Pizza");
                     runApp(MyApp());
                   },
                 ),
@@ -391,10 +375,11 @@ class CustomAppBar extends StatelessWidget {
             stream: bloc.ListStream,
             builder: (context, snapshot) {
               List<FoodItem> foodItems = snapshot.data;
-              int lenght = foodItems != null ? foodItems.length : 0;
-              return buildGestureDetector(lenght, context, foodItems);
+              int length = foodItems != null ? foodItems.length : 0;
+              return buildGestureDetector(length, context, foodItems);
             },
-          )
+          ),
+
         ],
       ),
     );

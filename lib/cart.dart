@@ -336,7 +336,7 @@ class ItemContent extends StatelessWidget {
     return Container(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Expanded(
             child: ClipRRect(
@@ -348,7 +348,7 @@ class ItemContent extends StatelessWidget {
                 width: 80,
               ),
             ),
-          ),
+          ),SizedBox(width: 6,),
           Expanded(
             child: RichText(
               text: TextSpan(
@@ -365,6 +365,7 @@ class ItemContent extends StatelessWidget {
               ),
             ),
           ),
+          SizedBox(width: 6,),
           Expanded(
             child: Text(
               "\$${foodItem.quantity * foodItem.price}",
