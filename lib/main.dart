@@ -80,14 +80,14 @@ final FoodItem foodItem;
       onTap: () {
         addToCart(foodItem);
 
-        final snackbar = SnackBar(
+        final snackBar = SnackBar(
           content: Text("${foodItem.title} added to the cart"),
           duration: Duration(milliseconds: 550),
         );
 
-        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       },
-      child: Items(
+      child: ItemInfoCard(
         hotel: foodItem.hotel, 
         itemName: foodItem.title, 
         itemPrice: foodItem.price, 
@@ -99,7 +99,7 @@ final FoodItem foodItem;
   }
 }
 
-class Items extends StatelessWidget {
+class ItemInfoCard extends StatelessWidget {
 
   final String hotel;
   final String itemName;
@@ -107,7 +107,7 @@ class Items extends StatelessWidget {
   final String imageUrl;
   final bool leftAligned;
 
-  Items({
+  ItemInfoCard({
     @required this.hotel,
     @required this.itemName,
     @required this.itemPrice,
@@ -124,8 +124,8 @@ class Items extends StatelessWidget {
       children: <Widget>[
         Container(
           padding: EdgeInsets.only(
-            left: leftAligned ? 0 : containerPadding,
-            right: leftAligned ? containerPadding : 0,
+            left: leftAligned ? 1 : containerPadding,
+            right: leftAligned ? containerPadding : 1,
           ),
           child: Column(
             children: <Widget>[
@@ -182,16 +182,18 @@ class Items extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: RichText(
                         text: TextSpan(
-                          style: TextStyle(
-                            color: Colors.black45,
-                            fontSize: 15
-                          ),
+
+
                           children: [
-                            TextSpan(text: "by "),
+                            TextSpan(
+                                text: "by ",
+                                style: TextStyle(
+                                color: Colors.black45,
+                                fontSize: 15)),
                             TextSpan(
                               text: hotel,
                               style: TextStyle(
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w700,color: Colors.grey
                               )
                             )
                           ]
@@ -232,8 +234,11 @@ class FirstHalf extends StatelessWidget{
     );
   }
 }
-
+int categoryId=0;
 Widget categories(){
+ setCategoryId(int i){
+   categoryId=i;
+ }
   return
 
        Container(
@@ -243,35 +248,71 @@ Widget categories(){
               scrollDirection: Axis.horizontal,
               children: <Widget>[
 
-                CategoryListItem(
-                  categoryIcon: Image.network('https://hips.hearstapps.com/pop.h-cdn.co/assets/cm/15/05/480x240/54ca71fb94ad3_-_5summer_skills_burger_470_0808-de.jpg'),
-                  categoryName: "Burgers",
-                  availability: 12,
-                  selected: true,
+                InkWell(
+                  child: CategoryListItem(
+                    categoryIcon:
+                      Image.network('https://hips.hearstapps.com/pop.h-cdn.co/assets/cm/15/05/480x240/54ca71fb94ad3_-_5summer_skills_burger_470_0808-de.jpg'
+                          ,fit: BoxFit.fill),
+                    categoryName: "Burgers",
+                    availability: 12,
+                    selected:categoryId==0 ? true : false,
+                  ),
+                  onTap: (){
+                    setCategoryId(0);
+                    runApp(MyApp());
+                  },
                 ),
-                CategoryListItem(
-                  categoryIcon: Image.network('https://www.qsrmagazine.com/sites/default/files/styles/story_page/public/FreddysBurger.jpg'),
-                  categoryName: "Pizza",
-                  availability: 12,
-                  selected: false,
+                InkWell(
+                  child: CategoryListItem(
+                    categoryIcon: Image.network('https://www.qsrmagazine.com/sites/default/files/styles/story_page/public/FreddysBurger.jpg'
+                        ,fit: BoxFit.fill),
+                    categoryName: "Pizza",
+                    availability: 12,
+                    selected: categoryId==1 ? true : false,
+                  ),
+                  onTap: (){
+                    setCategoryId(1);
+                    runApp(MyApp());
+                  },
                 ),
-                CategoryListItem(
-                  categoryIcon: Image.network('https://cdn.pixabay.com/photo/2018/03/04/20/08/burger-3199088__340.jpg'),
-                  categoryName: "Rolls",
-                  availability: 12,
-                  selected: false,
+                InkWell(
+                  child: CategoryListItem(
+                    categoryIcon: Image.network('https://cdn.pixabay.com/photo/2018/03/04/20/08/burger-3199088__340.jpg'
+                        ,fit: BoxFit.fill),
+                    categoryName: "Rolls",
+                    availability: 12,
+                    selected: categoryId==2 ? true : false,
+                  ),
+                  onTap: (){
+                    setCategoryId(2);
+                    runApp(MyApp());
+                  },
                 ),
-                CategoryListItem(
-                  categoryIcon:  Image.network('https://www.beliefnet.com/columnists/doinglifetogether/wp-content/uploads/sites/258/2013/05/burger.jpg'),
-                  categoryName: "Burgers",
-                  availability: 12,
-                  selected: false,
+                InkWell(
+                  child: CategoryListItem(
+                    categoryIcon:  Image.network('https://www.beliefnet.com/columnists/doinglifetogether/wp-content/uploads/sites/258/2013/05/burger.jpg'
+                        ,fit: BoxFit.fill),
+                    categoryName: "Burgers",
+                    availability: 12,
+                    selected: categoryId==3 ? true : false,
+                  ),
+                  onTap: (){
+                    setCategoryId(3);
+                    runApp(MyApp());
+                  },
                 ),
-                CategoryListItem(
-                  categoryIcon: Image.network('https://www.beliefnet.com/columnists/doinglifetogether/wp-content/uploads/sites/258/2013/05/burger.jpg'),
-                  categoryName: "Burgers",
-                  availability: 12,
-                  selected: false,
+                InkWell(
+                  child: CategoryListItem(
+                    categoryIcon: Image.network('https://www.beliefnet.com/columnists/doinglifetogether/wp-content/uploads/sites/258/2013/05/burger.jpg'
+                        ,fit: BoxFit.fill),
+                    categoryName: "Burgers",
+                    availability: 12,
+                    selected: categoryId==4 ? true : false,
+                  ),
+                  onTap: (){
+                    setCategoryId(4);
+                    runApp(MyApp());
+                  },
                 ),
               ],
           ),
