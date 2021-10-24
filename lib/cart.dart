@@ -6,7 +6,6 @@ import 'package:the_food_cart_app/bloc/cartListBloc.dart';
 import 'package:the_food_cart_app/model/foodItem.dart';
 
 class Cart extends StatelessWidget {
-
   final CartListBloc bloc = BlocProvider.getBloc<CartListBloc>();
 
   @override
@@ -22,7 +21,7 @@ class Cart extends StatelessWidget {
           return Scaffold(
             body: SafeArea(
               child: Container(
-               child: CartBody(foodItems),
+                child: CartBody(foodItems),
               ),
             ),
             bottomNavigationBar: BottomBar(foodItems),
@@ -35,7 +34,7 @@ class Cart extends StatelessWidget {
   }
 }
 
-class BottomBar extends StatelessWidget{
+class BottomBar extends StatelessWidget {
   final List<FoodItem> foodItems;
 
   BottomBar(this.foodItems);
@@ -43,17 +42,13 @@ class BottomBar extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return  Container(
+    return Container(
       margin: EdgeInsets.only(left: 35, bottom: 25),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-           totalAmount(foodItems) ,
-          Divider(
-            height: 1,
-            color: Colors.grey[700],
-          ),
-          persons(),
+          CartDetails(foodItems: foodItems,),
+
           nextButtonBar(),
         ],
       ),
@@ -65,32 +60,77 @@ class BottomBar extends StatelessWidget{
       margin: EdgeInsets.only(right: 25),
       padding: EdgeInsets.all(25),
       decoration: BoxDecoration(
-          color: Color(0xfffeb324),
-          borderRadius: BorderRadius.circular(15)
-      ),
+          color: Color(0xfffeb324), borderRadius: BorderRadius.circular(15)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
             "15-25 min",
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w800
-            ),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
           ),
           Text(
             "Next",
-            style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w900
-            ),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+          )
+        ],
+      ),
+    );
+  }
+}
+int noOfPersons = 1;
+class CartDetails extends StatefulWidget {
+  const CartDetails({Key key, this.foodItems}) : super(key: key);
+
+  final List<FoodItem> foodItems;
+  @override
+  _CartDetailsState createState() => _CartDetailsState();
+}
+
+class _CartDetailsState extends State<CartDetails> {
+  @override
+  Widget build(BuildContext context) {
+
+    return Column(
+      children: [
+        totalAmount(widget.foodItems),
+        Divider(
+          height: 1,
+          color: Colors.grey[700],
+        ),
+        personsCard()
+      ],
+    );
+  }
+
+  Container totalAmount(List<FoodItem> foodItem) {
+    return Container(
+      margin: EdgeInsets.only(right: 10),
+      padding: EdgeInsets.all(25),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            "Total",
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w300),
+          ),
+          Text(
+            "\$${returnTotalAmount(foodItem) }",
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 28),maxLines: 6,
           )
         ],
       ),
     );
   }
 
-  Container persons() {
+  String returnTotalAmount(List<FoodItem> foodItem) {
+    double totalAmount = 0;
+    for (int i = 0; i < foodItem.length; i++) {
+      totalAmount = totalAmount + foodItem[i].price * foodItem[i].quantity;
+    }
+    return (totalAmount * noOfPersons).toStringAsFixed(2);
+  }
+
+  Container personsCard() {
     return Container(
       margin: EdgeInsets.only(right: 10),
       padding: EdgeInsets.symmetric(vertical: 30),
@@ -99,138 +139,82 @@ class BottomBar extends StatelessWidget{
         children: <Widget>[
           Text(
             "Persons",
-            style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w700
-            ),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
           ),
-          CustomPersonWidget()
+          incPersonsButton()
         ],
       ),
     );
   }
 
-  Container totalAmount(List<FoodItem> foodItem) {
-   return Container (
-     margin: EdgeInsets.only(right: 10),
-     padding: EdgeInsets.all(25),
-     child: Row(
-       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-       children: <Widget>[
-         Text(
-           "Total",
-           style: TextStyle(
-             fontSize: 25,
-             fontWeight: FontWeight.w300
-           ),
-         ),
-         Text(
-           "\$${returnTotalAmount(foodItem)}",
-           style: TextStyle(
-             fontWeight: FontWeight.w700,
-             fontSize: 28
-           ),
+  incPersonsButton() {
 
-         )
-       ],
-     ),
-   );
-  }
+    double buttonWidth = 30;
 
-  String returnTotalAmount(List<FoodItem> foodItem){
-    double totalAmount = 0;
-    for (int i =0; i < foodItem.length; i ++){
-      totalAmount = totalAmount + foodItem[i].price * foodItem[i].quantity;
+      return Container(
+        margin: EdgeInsets.only(right: 25),
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey[300], width: 2),
+            borderRadius: BorderRadius.circular(10)),
+        padding: EdgeInsets.symmetric(vertical: 5),
+        width: 120,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            SizedBox(
+              width: buttonWidth,
+              height: buttonWidth,
+              // ignore: deprecated_member_use
+              child: FlatButton(
+                child: Text(
+                  "-",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                  ),
+                ),
+                onPressed: () {
+                  if (noOfPersons > 1)
+                    setState(() {
+                      noOfPersons--;
+                    });
+                },
+              ),
+            ),
+            Text(
+              noOfPersons.toString(),
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+            ),
+            SizedBox(
+              width: buttonWidth,
+              height: buttonWidth,
+              // ignore: deprecated_member_use
+              child: FlatButton(
+                child: Text(
+                  "+",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                  ),
+                ),
+                onPressed: () {
+                  setState(() {
+                    noOfPersons++;
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
+      );
     }
-    return totalAmount.toStringAsFixed(2);
   }
-}
 
 
-class CustomPersonWidget extends StatefulWidget{
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return _CustomPersonWidgetState();
-  }
-}
 
-class _CustomPersonWidgetState extends State<CustomPersonWidget> {
-
-  int noOfPersons = 1;
-  double buttonWidth = 30;
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Container(
-      margin: EdgeInsets.only(right: 25),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey[300], width: 2),
-        borderRadius: BorderRadius.circular(10)
-      ),
-      padding: EdgeInsets.symmetric(vertical: 5),
-      width: 120,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          SizedBox(
-            width: buttonWidth,
-            height: buttonWidth,
-            // ignore: deprecated_member_use
-            child: FlatButton(
-              child: Text(
-                "-",
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
-                ),
-              ),
-              onPressed: (){
-                if(noOfPersons>1)
-                setState(() {
-                  noOfPersons--;
-                });
-              },
-            ),
-          ),
-          Text(
-            noOfPersons.toString(),
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 20
-            ),
-          ),
-          SizedBox(
-            width: buttonWidth,
-            height: buttonWidth,
-            // ignore: deprecated_member_use
-            child: FlatButton(
-              child: Text(
-                "+",
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
-                ),
-              ),
-              onPressed: (){
-                setState(() {
-                  noOfPersons++;
-                });
-
-              },
-            ),
-          ),
-        ],
-      ),
-
-    );
-  }
-}
 
 
 class CartBody extends StatelessWidget {
-
   final List<FoodItem> foodItems;
 
   CartBody(this.foodItems);
@@ -259,25 +243,23 @@ class CartBody extends StatelessWidget {
         child: Text(
           "No more items in the cart",
           style: TextStyle(
-            fontWeight: FontWeight.w600,
-            color: Colors.grey[500],
-            fontSize: 20
-          ),
+              fontWeight: FontWeight.w600,
+              color: Colors.grey[500],
+              fontSize: 20),
         ),
       ),
     );
   }
 
-  ListView foodItemsList(){
+  ListView foodItemsList() {
     return ListView.builder(
         itemCount: foodItems.length,
         itemBuilder: (builder, index) {
           return CartListItem(foodItem: foodItems[index]);
-        }
-    );
+        });
   }
 
-  Widget title () {
+  Widget title() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 35),
       child: Row(
@@ -286,7 +268,7 @@ class CartBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                  "My",
+                "My",
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 35,
@@ -305,11 +287,9 @@ class CartBody extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class CartListItem extends StatelessWidget {
-
   final FoodItem foodItem;
 
   CartListItem({@required this.foodItem});
@@ -325,7 +305,6 @@ class CartListItem extends StatelessWidget {
 }
 
 class ItemContent extends StatelessWidget {
-
   final FoodItem foodItem;
 
   ItemContent({@required this.foodItem});
@@ -348,31 +327,33 @@ class ItemContent extends StatelessWidget {
                 width: 80,
               ),
             ),
-          ),SizedBox(width: 6,),
+          ),
+          SizedBox(
+            width: 6,
+          ),
           Expanded(
             child: RichText(
               text: TextSpan(
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w700,
-                ),
-                 children: [
-                   TextSpan(text: foodItem.quantity.toString()),
-                   TextSpan(text: " X "),
-                   TextSpan(text: foodItem.title)
-                 ]
-              ),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  children: [
+                    TextSpan(text: foodItem.quantity.toString()),
+                    TextSpan(text: " X "),
+                    TextSpan(text: foodItem.title)
+                  ]),
             ),
           ),
-          SizedBox(width: 6,),
+          SizedBox(
+            width: 6,
+          ),
           Expanded(
             child: Text(
               "\$${foodItem.quantity * foodItem.price}",
               style: TextStyle(
-                color: Colors.grey[300],
-                fontWeight: FontWeight.w400
-              ),
+                  color: Colors.grey[300], fontWeight: FontWeight.w400),
             ),
           )
         ],
@@ -381,8 +362,7 @@ class ItemContent extends StatelessWidget {
   }
 }
 
-
-class CustomAppBar extends StatelessWidget{
+class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -405,16 +385,13 @@ class CustomAppBar extends StatelessWidget{
           child: Padding(
             padding: EdgeInsets.all(5),
             child: Icon(
-                CupertinoIcons.delete,
-                size: 35,
+              CupertinoIcons.delete,
+              size: 35,
             ),
           ),
-          onTap: () {
-
-          },
+          onTap: () {},
         )
       ],
     );
   }
-
 }
