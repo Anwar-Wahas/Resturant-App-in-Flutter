@@ -338,34 +338,40 @@ class ItemContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(5),
-            child: Image.network(
-              foodItem.imgUrl,
-              fit: BoxFit.fitHeight,
-              height: 55,
-              width: 80,
-            ),
-          ),
-          RichText(
-            text: TextSpan(
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.black,
-                fontWeight: FontWeight.w700,
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: Image.network(
+                foodItem.imgUrl,
+                fit: BoxFit.fitHeight,
+                height: 55,
+                width: 80,
               ),
-               children: [
-                 TextSpan(text: foodItem.quantity.toString()),
-                 TextSpan(text: " X "),
-                 TextSpan(text: foodItem.title)
-               ]
             ),
           ),
-          Text(
-            "\$${foodItem.quantity * foodItem.price}",
-            style: TextStyle(
-              color: Colors.grey[300],
-              fontWeight: FontWeight.w400
+          Expanded(
+            child: RichText(
+              text: TextSpan(
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w700,
+                ),
+                 children: [
+                   TextSpan(text: foodItem.quantity.toString()),
+                   TextSpan(text: " X "),
+                   TextSpan(text: foodItem.title)
+                 ]
+              ),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              "\$${foodItem.quantity * foodItem.price}",
+              style: TextStyle(
+                color: Colors.grey[300],
+                fontWeight: FontWeight.w400
+              ),
             ),
           )
         ],
